@@ -50,14 +50,14 @@ public class PuzzleOptionsScreen extends Screen {
         tabNavigation.init();
         prevTab = tabManager.getCurrentTab();
         this.addDrawableChild(tabNavigation);
-        this.list = new PuzzleOptionListWidget(this.client, this.width, this.height - 64, 32, 25);
+        this.list = new PuzzleOptionListWidget(this.client, this.width, this.height - 57, 24, 25);
         fillList();
-        this.addSelectableChild(this.list);
+        this.addDrawableChild(list);
 
         super.init();
-        if (client != null && client.world != null) this.list.setRenderBackground(false);
 
-        this.addDrawableChild(ButtonWidget.builder(ScreenTexts.DONE, (button) -> Objects.requireNonNull(client).setScreen(parent)).dimensions(this.width / 2 - 100, this.height - 28, 200, 20).build());
+
+        this.addDrawableChild(ButtonWidget.builder(ScreenTexts.DONE, (button) -> Objects.requireNonNull(client).setScreen(parent)).dimensions(this.width / 2 - 100, this.height - 26, 200, 20).build());
     }
     private void fillList() {
         List<PuzzleWidget> options = List.of();
@@ -83,12 +83,4 @@ public class PuzzleOptionsScreen extends Screen {
             list.setScrollAmount(0);
         }
     }
-
-    @Override
-    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        if (client != null && client.world != null) super.renderInGameBackground(context);
-        this.list.render(context, mouseX, mouseY, delta);
-        super.render(context, mouseX, mouseY, delta);
-    }
-    @Override public void renderBackground(DrawContext c, int x, int y, float d) {}
 }

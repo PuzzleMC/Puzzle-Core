@@ -1,7 +1,7 @@
 // Based on https://github.com/OnyxStudios/Cardinal-Components-API/blob/1.17/build.gradle
 plugins {
-    id "fabric-loom" version "1.2-SNAPSHOT" apply false
-    id "com.matthewprenger.cursegradle" version "1.4.0"
+    id "fabric-loom" version "1.6-SNAPSHOT" apply false
+    id "me.shedaniel.unified-publishing" version "0.1.+"
     id "maven-publish"
     id "java-library"
 }
@@ -21,7 +21,7 @@ subprojects {
 
 allprojects {
     apply plugin: "fabric-loom"
-    sourceCompatibility = targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = targetCompatibility = JavaVersion.VERSION_21
     version = System.getenv("TRAVIS_TAG") ?: rootProject.mod_version
 
     configurations {
@@ -53,7 +53,7 @@ allprojects {
     // see http://yodaconditions.net/blog/fix-for-java-file-encoding-problems-with-gradle.html
     tasks.withType(JavaCompile).configureEach {
         it.options.encoding = "UTF-8"
-        it.options.release = 17
+        it.options.release = 21
     }
 
     java {
@@ -163,6 +163,60 @@ publishing {
                     depNode.appendNode("version", it.version)
                     depNode.appendNode("scope", "compile")
                 }
+            }
+        }
+    }
+}
+ext {
+    releaseChangelog = {
+        def changes = new StringBuilder()
+        changes << "## Puzzle v$project.version for $project.minecraft_version\n[View the changelog](https://www.github.com/TeamMidnightDust/Puzzle/commits/)"
+        def proc = "git log --max-count=1 --pretty=format:%s".execute()
+        proc.in.eachLine { line ->
+            def processedLine = line.toString()
+            if (!processedLine.contains("New translations") && !processedLine.contains("Merge") && !processedLine.contains("branch")) {
+                changes << "\n- ${processedLine.capitalize()}"
+            }
+        }
+        proc.waitFor()
+        return changes.toString()
+    }
+}
+unifiedPublishing {
+    project {
+        displayName = "Puzzle $project.version - $project.minecraft_version"
+        releaseType = "$project.release_type"
+        changelog = releaseChangelog()
+        gameVersions = []
+        gameLoaders = ["fabric","quilt"]
+        mainPublication remapJar
+        relations {
+            depends {
+                curseforge = "fabric-api"
+                modrinth = "fabric-api"
+            }
+            includes {
+                curseforge = "midnightlib"
+                modrinth = "midnightlib"
+            }
+        }
+
+        var CURSEFORGE_TOKEN = project.findProperty("CURSEFORGE_TOKEN") ?: System.getenv("CURSEFORGE_TOKEN")
+        if (CURSEFORGE_TOKEN != null) {
+            curseforge {
+                token = CURSEFORGE_TOKEN
+                id = project.curseforge_id
+                gameVersions.addAll "Java 21", project.minecraft_version
+            }
+        }
+
+        var MODRINTH_TOKEN = project.findProperty("MODRINTH_TOKEN") ?: System.getenv("MODRINTH_TOKEN")
+        if (MODRINTH_TOKEN != null) {
+            modrinth {
+                token = MODRINTH_TOKEN
+                id = project.modrinth_id
+                version = "$project.version-$project.name"
+                gameVersions.addAll project.minecraft_version
             }
         }
     }
