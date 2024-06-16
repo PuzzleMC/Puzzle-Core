@@ -1,13 +1,9 @@
 package net.puzzlemc.splashscreen;
 
-import com.mojang.blaze3d.platform.TextureUtil;
-import com.mojang.blaze3d.systems.RenderSystem;
 import eu.midnightdust.lib.util.MidnightColorUtil;
 import net.fabricmc.api.ClientModInitializer;
-import net.minecraft.client.texture.AbstractTexture;
 import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.util.Util;
-import net.minecraft.util.math.ColorHelper;
 import net.puzzlemc.core.config.PuzzleConfig;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -24,9 +20,10 @@ import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
 
-import java.awt.*;
-import java.io.*;
-import java.net.URL;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -35,8 +32,8 @@ import java.util.Objects;
 import java.util.Properties;
 
 public class PuzzleSplashScreen implements ClientModInitializer {
-    public static final Identifier LOGO = new Identifier("textures/gui/title/mojangstudios.png");
-    public static final Identifier BACKGROUND = new Identifier("optifine/splash_background.png");
+    public static final Identifier LOGO = Identifier.of("textures/gui/title/mojangstudios.png");
+    public static final Identifier BACKGROUND = Identifier.of("optifine/splash_background.png");
     public static File CONFIG_PATH = new File(String.valueOf(FabricLoader.getInstance().getConfigDir().resolve(".puzzle_cache")));
     public static Path LOGO_TEXTURE = Paths.get(CONFIG_PATH + "/mojangstudios.png");
     public static Path BACKGROUND_TEXTURE = Paths.get(CONFIG_PATH + "/splash_background.png");
@@ -66,7 +63,7 @@ public class PuzzleSplashScreen implements ClientModInitializer {
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new SimpleSynchronousResourceReloadListener() {
             @Override
             public Identifier getFabricId() {
-                return new Identifier("puzzle", "splash_screen");
+                return Identifier.of("puzzle", "splash_screen");
             }
             @Override
             public void reload(ResourceManager manager) {

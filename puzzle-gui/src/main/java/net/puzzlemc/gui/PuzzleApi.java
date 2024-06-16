@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PuzzleApi {
-    private static Logger LOGGER = LogManager.getLogger("puzzle-gui");
+    private static final Logger LOGGER = LogManager.getLogger("puzzle-gui");
 
     public static List<PuzzleWidget> GRAPHICS_OPTIONS = new ArrayList<>();
     public static List<PuzzleWidget> MISC_OPTIONS = new ArrayList<>();

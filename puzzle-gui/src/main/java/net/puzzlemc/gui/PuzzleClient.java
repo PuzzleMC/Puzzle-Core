@@ -17,7 +17,7 @@ public class PuzzleClient implements ClientModInitializer {
     public final static String id = "puzzle";
     public static final Text YES = Text.translatable("gui.yes").formatted(Formatting.GREEN);
     public static final Text NO = Text.translatable("gui.no").formatted(Formatting.RED);
-    public static final Identifier PUZZLE_BUTTON = new Identifier(id, "icon/button");
+    public static final Identifier PUZZLE_BUTTON = Identifier.of(id, "icon/button");
 
     @Override
     public void onInitializeClient() {
