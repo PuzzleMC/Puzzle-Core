@@ -1,15 +1,15 @@
 pluginManagement {
     repositories {
-        maven {
-            name = 'Fabric'
-            url = 'https://maven.fabricmc.net/'
-        }
+        maven { url "https://maven.fabricmc.net/" }
         maven { url "https://maven.architectury.dev/" }
+        maven { url "https://maven.neoforged.net/releases" }
         gradlePluginPortal()
     }
 }
-include 'puzzle-base'
 
-include 'puzzle-splashscreen'
-include 'puzzle-models'
-include 'puzzle-gui'
+include("common")
+include("fabric")
+include("neoforge")
+//include("quilt")
+
+rootProject.name = "puzzle"
