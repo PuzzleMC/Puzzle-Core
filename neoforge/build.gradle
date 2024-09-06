@@ -84,6 +84,12 @@ unifiedPublishing {
         gameVersions = []
         gameLoaders = ["neoforge"]
         mainPublication remapJar
+        relations {
+            depends {
+                curseforge = "midnightlib"
+                modrinth = "midnightlib"
+            }
+        }
 
         var CURSEFORGE_TOKEN = project.findProperty("CURSEFORGE_TOKEN") ?: System.getenv("CURSEFORGE_TOKEN")
         if (CURSEFORGE_TOKEN != null) {
