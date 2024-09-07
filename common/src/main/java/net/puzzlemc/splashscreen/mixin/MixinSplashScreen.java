@@ -62,7 +62,7 @@ public abstract class MixinSplashScreen extends Overlay {
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;blendFunc(II)V", shift = At.Shift.AFTER), remap = false)
     private void puzzle$betterBlend(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         if (PuzzleConfig.resourcepackSplashScreen) {
-            if (PuzzleConfig.disableBlend) RenderSystem.defaultBlendFunc();
+            if (PuzzleConfig.disableBlend) RenderSystem.disableBlend();
             else if (PuzzleConfig.customBlendFunction.size() == 4) RenderSystem.blendFuncSeparate(
                     GlStateManager.SrcFactor.valueOf(PuzzleConfig.customBlendFunction.get(0)),
                     GlStateManager.DstFactor.valueOf(PuzzleConfig.customBlendFunction.get(1)),

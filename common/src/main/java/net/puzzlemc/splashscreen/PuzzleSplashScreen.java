@@ -81,6 +81,7 @@ public class PuzzleSplashScreen {
                             PuzzleConfig.hasCustomSplashScreen = true;
                         }
                         if (properties.get("screen.loading.blend") != null) {
+                            // Recommended blend: SRC_ALPHA ONE_MINUS_SRC_ALPHA ONE ZERO
                             PuzzleConfig.disableBlend = properties.get("screen.loading.blend").toString().equals("off");
                             PuzzleConfig.customBlendFunction = new ArrayList<>(Arrays.stream(properties.get("screen.loading.blend").toString().split(" ")).toList());
                             PuzzleConfig.hasCustomSplashScreen = true;

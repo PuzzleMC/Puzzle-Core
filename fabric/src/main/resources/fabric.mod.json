@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "Puzzle",
-  "description": "Improved resourcepack capabilities.",
+  "description": "Unites optifine replacement mods in a clean & vanilla-style gui",
   "authors": [
     "PuzzleMC",
     "Motschen"

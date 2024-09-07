@@ -10,7 +10,7 @@ displayName = "Puzzle"
 logoFile = "puzzle.png"
 authors = "PuzzleMC, Motschen"
 description = '''
-Improved resourcepack capabilities.
+Unites optifine replacement mods in a clean & vanilla-style gui
 '''
 
 [[mixins]]
