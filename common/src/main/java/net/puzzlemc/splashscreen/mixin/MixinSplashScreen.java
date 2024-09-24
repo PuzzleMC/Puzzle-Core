@@ -26,6 +26,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.function.IntSupplier;
 
+import static net.puzzlemc.core.PuzzleCore.LOGGER;
 import static net.puzzlemc.splashscreen.PuzzleSplashScreen.BACKGROUND;
 
 @Mixin(value = SplashOverlay.class, priority = 2000)
@@ -63,11 +64,17 @@ public abstract class MixinSplashScreen extends Overlay {
     private void puzzle$betterBlend(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         if (PuzzleConfig.resourcepackSplashScreen) {
             if (PuzzleConfig.disableBlend) RenderSystem.disableBlend();
-            else if (PuzzleConfig.customBlendFunction.size() == 4) RenderSystem.blendFuncSeparate(
-                    GlStateManager.SrcFactor.valueOf(PuzzleConfig.customBlendFunction.get(0)),
-                    GlStateManager.DstFactor.valueOf(PuzzleConfig.customBlendFunction.get(1)),
-                    GlStateManager.SrcFactor.valueOf(PuzzleConfig.customBlendFunction.get(2)),
-                    GlStateManager.DstFactor.valueOf(PuzzleConfig.customBlendFunction.get(3)));
+            else if (PuzzleConfig.customBlendFunction.size() == 4) {
+                try {
+                    RenderSystem.blendFuncSeparate(
+                            GlStateManager.SrcFactor.valueOf(PuzzleConfig.customBlendFunction.get(0)),
+                            GlStateManager.DstFactor.valueOf(PuzzleConfig.customBlendFunction.get(1)),
+                            GlStateManager.SrcFactor.valueOf(PuzzleConfig.customBlendFunction.get(2)),
+                            GlStateManager.DstFactor.valueOf(PuzzleConfig.customBlendFunction.get(3)));
+                } catch (Exception e) {
+                    LOGGER.error("Incorrect blend function defined in color.properties: {}{}", PuzzleConfig.customBlendFunction, e.getMessage());
+                }
+            }
         }
     }
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;getScaledWindowWidth()I", ordinal = 2))
