@@ -37,7 +37,7 @@ public abstract class MixinOptionsScreen extends Screen {
         }
     }
 
-    @Inject(at = @At("TAIL"), method = "initTabNavigation")
+    @Inject(at = @At("TAIL"), method = "refreshWidgetPositions")
     public void puzzle$onResize(CallbackInfo ci) {
         if (PuzzleConfig.enablePuzzleButton) this.puzzle$setButtonPos();
     }

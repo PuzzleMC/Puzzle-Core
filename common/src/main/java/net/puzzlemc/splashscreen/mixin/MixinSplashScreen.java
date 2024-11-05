@@ -11,6 +11,7 @@ import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
+import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.MathHelper;
 import net.puzzlemc.core.config.PuzzleConfig;
 import net.puzzlemc.splashscreen.PuzzleSplashScreen;
@@ -31,7 +32,7 @@ import static net.puzzlemc.splashscreen.PuzzleSplashScreen.BACKGROUND;
 
 @Mixin(value = SplashOverlay.class, priority = 2000)
 public abstract class MixinSplashScreen extends Overlay {
-    @Shadow @Final static Identifier LOGO;
+    @Shadow @Final public static Identifier LOGO;
     @Shadow private long reloadCompleteTime;
     @Shadow @Final private MinecraftClient client;
     @Shadow @Final private boolean reloading;
@@ -60,7 +61,7 @@ public abstract class MixinSplashScreen extends Overlay {
     private int puzzle$modifyBackground(IntSupplier instance) { // Set the Progress Bar Frame Color to our configured value //
         return (!PuzzleConfig.resourcepackSplashScreen || PuzzleConfig.progressBarBackgroundColor == 15675965) ? instance.getAsInt() : PuzzleConfig.backgroundColor | 255 << 24;
     }
-    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;blendFunc(II)V", shift = At.Shift.AFTER), remap = false)
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/ColorHelper;getWhite(F)I", shift = At.Shift.AFTER), remap = false)
     private void puzzle$betterBlend(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         if (PuzzleConfig.resourcepackSplashScreen) {
             if (PuzzleConfig.disableBlend) RenderSystem.disableBlend();
@@ -92,9 +93,7 @@ public abstract class MixinSplashScreen extends Overlay {
             RenderSystem.enableBlend();
             RenderSystem.blendEquation(32774);
             RenderSystem.defaultBlendFunc();
-            RenderSystem.setShader(GameRenderer::getPositionTexProgram);
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, s);
-            context.drawTexture(BACKGROUND, 0, 0, 1, 0, 0, width, height, width, height);
+            context.drawTexture(RenderLayer::getGuiTextured, BACKGROUND, 0, 0, 0, 0, width, height, width, height, ColorHelper.fromFloats(s, 1.0f, 1.0f, 1.0f));
             RenderSystem.defaultBlendFunc();
             RenderSystem.disableBlend();
         }
