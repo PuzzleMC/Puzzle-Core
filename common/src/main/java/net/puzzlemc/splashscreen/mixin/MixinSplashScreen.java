@@ -61,7 +61,7 @@ public abstract class MixinSplashScreen extends Overlay {
     private int puzzle$modifyBackground(IntSupplier instance) { // Set the Progress Bar Frame Color to our configured value //
         return (!PuzzleConfig.resourcepackSplashScreen || PuzzleConfig.progressBarBackgroundColor == 15675965) ? instance.getAsInt() : PuzzleConfig.backgroundColor | 255 << 24;
     }
-    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/ColorHelper;getWhite(F)I", shift = At.Shift.AFTER), remap = false)
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/ColorHelper;getWhite(F)I", shift = At.Shift.AFTER))
     private void puzzle$betterBlend(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         if (PuzzleConfig.resourcepackSplashScreen) {
             if (PuzzleConfig.disableBlend) RenderSystem.disableBlend();
@@ -93,7 +93,7 @@ public abstract class MixinSplashScreen extends Overlay {
             RenderSystem.enableBlend();
             RenderSystem.blendEquation(32774);
             RenderSystem.defaultBlendFunc();
-            context.drawTexture(RenderLayer::getGuiTextured, BACKGROUND, 0, 0, 0, 0, width, height, width, height, ColorHelper.fromFloats(s, 1.0f, 1.0f, 1.0f));
+            context.drawTexture(RenderLayer::getGuiTextured, BACKGROUND, 0, 0, 0, 0, width, height, width, height, ColorHelper.getWhite(s));
             RenderSystem.defaultBlendFunc();
             RenderSystem.disableBlend();
         }
