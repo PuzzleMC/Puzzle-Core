@@ -86,7 +86,7 @@ public class PuzzleOptionsScreen extends Screen {
             prevTab = tabManager.getCurrentTab();
             this.list.clear();
             fillList();
-            list.setScrollAmount(0);
+            list.setScrollY(0);
         }
     }
 }

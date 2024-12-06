@@ -31,16 +31,22 @@ public class PuzzleOptionListWidget extends MidnightConfig.MidnightConfigListWid
     public void addAll(List<PuzzleWidget> buttons) {
         int buttonX = this.width - 160;
         for (PuzzleWidget button : buttons) {
-            if (button.buttonType == ButtonType.TEXT)
-                this.addButton(List.of(), Text.literal(" ").append(button.descriptionText).formatted(Formatting.BOLD));
-            else if (button.buttonType == ButtonType.BUTTON)
-                this.addButton(List.of(new PuzzleButtonWidget(buttonX, 0, 150, 20, button.buttonTextAction, button.onPress)), button.descriptionText);
-            else if (button.buttonType == ButtonType.SLIDER)
-                this.addButton(List.of(new PuzzleSliderWidget(button.min, button.max, buttonX, 0, 150, 20, button.defaultSliderValue.getAsInt(), button.buttonTextAction, button.changeSliderValue)), button.descriptionText);
-            else if (button.buttonType == ButtonType.TEXT_FIELD)
-                this.addButton(List.of(new PuzzleTextFieldWidget(textRenderer, buttonX, 0, 150, 20, button.setTextValue, button.changeTextValue)), button.descriptionText);
-            else
-                LOGGER.warn("Button {} is missing the buttonType variable. This shouldn't happen!", button);
+            try {
+                if (button.buttonType == ButtonType.TEXT)
+                    this.addButton(List.of(), Text.literal(" ").append(button.descriptionText).formatted(Formatting.BOLD));
+                else if (button.buttonType == ButtonType.BUTTON)
+                    this.addButton(List.of(new PuzzleButtonWidget(buttonX, 0, 150, 20, button.buttonTextAction, button.onPress)), button.descriptionText);
+                else if (button.buttonType == ButtonType.SLIDER)
+                    this.addButton(List.of(new PuzzleSliderWidget(button.min, button.max, buttonX, 0, 150, 20, button.defaultSliderValue.getAsInt(), button.buttonTextAction, button.changeSliderValue)), button.descriptionText);
+                else if (button.buttonType == ButtonType.TEXT_FIELD)
+                    this.addButton(List.of(new PuzzleTextFieldWidget(textRenderer, buttonX, 0, 150, 20, button.setTextValue, button.changeTextValue)), button.descriptionText);
+                else
+                    LOGGER.warn("Button {} is missing the buttonType variable. This shouldn't happen!", button);
+            }
+            catch (Exception e) {
+                LOGGER.error("Failed to add button {}. Likely caused by an update of the specific mod.", button.descriptionText);
+            }
+
         }
     }
     public void addButton(List<ClickableWidget> buttons, Text text) {

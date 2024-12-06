@@ -9,6 +9,7 @@ import net.minecraft.client.gui.screen.SplashOverlay;
 import net.minecraft.client.render.*;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.NativeImageBackedTexture;
+import net.minecraft.client.texture.TextureManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.ColorHelper;
@@ -42,16 +43,16 @@ public abstract class MixinSplashScreen extends Overlay {
         return 0;
     }
 
-    @Inject(method = "init(Lnet/minecraft/client/MinecraftClient;)V", at = @At("TAIL"))
-    private static void puzzle$initSplashscreen(MinecraftClient client, CallbackInfo ci) { // Load our custom textures at game start //
+    @Inject(method = "init", at = @At("TAIL"))
+    private static void puzzle$initSplashscreen(TextureManager textureManager, CallbackInfo ci) { // Load our custom textures at game start //
         if (PuzzleConfig.resourcepackSplashScreen) {
             if (PuzzleSplashScreen.LOGO_TEXTURE.toFile().exists()) {
-                client.getTextureManager().registerTexture(LOGO, new PuzzleSplashScreen.DynamicLogoTexture());
+                textureManager.registerTexture(LOGO, new PuzzleSplashScreen.DynamicLogoTexture());
             }
             if (PuzzleSplashScreen.BACKGROUND_TEXTURE.toFile().exists()) {
                 try {
                     InputStream input = new FileInputStream(String.valueOf(PuzzleSplashScreen.BACKGROUND_TEXTURE));
-                    client.getTextureManager().registerTexture(BACKGROUND, new NativeImageBackedTexture(NativeImage.read(input)));
+                    textureManager.registerTexture(BACKGROUND, new NativeImageBackedTexture(NativeImage.read(input)));
                 } catch (IOException ignored) {}
             }
         }
@@ -93,6 +94,7 @@ public abstract class MixinSplashScreen extends Overlay {
             RenderSystem.enableBlend();
             RenderSystem.blendEquation(32774);
             RenderSystem.defaultBlendFunc();
+            context.getMatrices().translate(0, 0, 1f);
             context.drawTexture(RenderLayer::getGuiTextured, BACKGROUND, 0, 0, 0, 0, width, height, width, height, ColorHelper.getWhite(s));
             RenderSystem.defaultBlendFunc();
             RenderSystem.disableBlend();

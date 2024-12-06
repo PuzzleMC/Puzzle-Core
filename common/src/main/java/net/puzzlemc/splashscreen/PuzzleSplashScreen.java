@@ -3,6 +3,7 @@ package net.puzzlemc.splashscreen;
 import eu.midnightdust.lib.util.MidnightColorUtil;
 import eu.midnightdust.lib.util.PlatformFunctions;
 import net.minecraft.client.texture.NativeImageBackedTexture;
+import net.minecraft.client.texture.TextureContents;
 import net.minecraft.resource.*;
 import net.minecraft.util.Util;
 import net.puzzlemc.core.config.PuzzleConfig;
@@ -137,14 +138,15 @@ public class PuzzleSplashScreen {
     public static class LogoTexture extends ResourceTexture {
         public LogoTexture(Identifier logo) { super(logo); }
 
-        protected TextureData loadTextureData(ResourceManager resourceManager) {
+        @Override
+        public TextureContents loadContents(ResourceManager resourceManager) {
             MinecraftClient minecraftClient = MinecraftClient.getInstance();
             DefaultResourcePack defaultResourcePack = minecraftClient.getDefaultResourcePack();
             try {
                 InputStream inputStream = Objects.requireNonNull(defaultResourcePack.open(ResourceType.CLIENT_RESOURCES, LOGO)).get();
-                TextureData var6;
+                TextureContents var6;
                 try {
-                    var6 = new TextureData(new TextureResourceMetadata(true, true), NativeImage.read(inputStream));
+                    var6 = new TextureContents(NativeImage.read(inputStream), new TextureResourceMetadata(true, true));
                 } finally {
                     if (inputStream != null) {
                         inputStream.close();
@@ -152,7 +154,7 @@ public class PuzzleSplashScreen {
                 }
                 return var6;
             } catch (IOException var18) {
-                return new TextureData(var18);
+                return TextureContents.createMissing();
             }
         }
     }
@@ -161,13 +163,18 @@ public class PuzzleSplashScreen {
         public DynamicLogoTexture() {
             super(LOGO);
         }
-        protected TextureData loadTextureData(ResourceManager resourceManager) {
+        @Override
+        public TextureContents loadContents(ResourceManager resourceManager) {
             try {
                 InputStream input = new FileInputStream(String.valueOf(PuzzleSplashScreen.LOGO_TEXTURE));
-                return new TextureData(new TextureResourceMetadata(true, true), NativeImage.read(input));
+                return new TextureContents(NativeImage.read(input), new TextureResourceMetadata(true, true));
             } catch (IOException e) {
                 LOGGER.error("Encountered an error during logo loading: ", e);
-                return TextureData.load(resourceManager, LOGO);
+                try {
+                    return TextureContents.load(resourceManager, LOGO);
+                } catch (IOException ex) {
+                    return TextureContents.createMissing();
+                }
             }
         }
     }
