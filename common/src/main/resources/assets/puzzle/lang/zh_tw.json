@@ -18,6 +18,9 @@
 	"puzzle.option.bigger_custom_models": "更大的自訂模型",
 	"puzzle.option.bigger_custom_models.tooltip": "增加將自訂方塊／物品模型大小\n從 3x3x3 增加到 5x5x5",
 	"puzzle.midnightconfig.title": "Puzzle 進階設定",
+	"puzzle.midnightconfig.category.gui": "介面",
+	"puzzle.midnightconfig.category.features": "功能",
+	"puzzle.midnightconfig.category.internal": "內部",
 	"puzzle.midnightconfig.tooltip": "給予進階使用者使用的選項",
 
 	"cullleaves.puzzle.option.enabled": "樹葉剔除",
