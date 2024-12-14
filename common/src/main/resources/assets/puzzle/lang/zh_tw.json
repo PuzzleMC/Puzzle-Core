@@ -32,7 +32,7 @@
 	"lambdabettergrass.option.mode.tooltip": "使草地的側面與\n相鄰的草地連接",
 	"lambdabettergrass.option.better_snow.tooltip": "為被雪/苔蘚包圍的非完整方塊\n加入純粹視覺上的雪/苔蘚層",
 	"config.dynamicfps.reduce_when_unfocused.tooltip": "在未聚焦時降低 Minecraft 的 FPS\n（例如，另一個視窗被聚焦或遊戲被隱藏）\n以節省電力和系統資源",
-	"config.dynamicfps.unfocused_fps.tooltip": "Minecraft 在未聚焦時\n允許繪製的FPS",
+	"config.dynamicfps.unfocused_fps.tooltip": "Minecraft 在未聚焦時\n允許繪製的 FPS",
 	"config.dynamicfps.restore_when_hovered.tooltip": "當預覽 Minecraft 時是否停止\nFPS 限制（例如，將滑鼠懸停在工作列或 Dock 上）",
 	"config.dynamicfps.run_gc_on_unfocus.tooltip": "在 Minecraft 未聚焦時執行垃圾回收器\n以釋放一些記憶體",
 	"config.dynamicfps.unfocused_volume.tooltip": "遊戲在未聚焦時播放聲音的音量\n（例如，選取了另一個視窗）",
