@@ -1,5 +1,5 @@
 {
-	"puzzle.te×t.update_available":"有新的更新可用！",
+	"puzzle.text.update_available":"有新的更新可用！",
 	"puzzle.screen.title":"Puzzle 設定",
 	"puzzle.page.graphics":"圖形",
 	"puzzle.page.resources":"資源",
@@ -37,6 +37,6 @@
 	"config.dynamicfps.run_gc_on_unfocus.tooltip": "在 Minecraft 未聚焦時執行垃圾回收器\n以釋放一些記憶體",
 	"config.dynamicfps.unfocused_volume.tooltip": "遊戲在未聚焦時播放聲音的音量\n（例如，選取了另一個視窗）",
 	"config.dynamicfps.hidden_volume.tooltip": "遊戲在不可見時播放聲音的音量\n（例如，最小化、被其他視窗覆蓋\n或在另一個虛擬桌面上）",
-	"entity_te×ture_features.puzzle.emissive_type.brighter": "§e更亮",
-	"entity_te×ture_features.puzzle.emissive_type.default": "§6預設"
+	"entity_texture_features.puzzle.emissive_type.brighter": "§e更亮",
+	"entity_texture_features.puzzle.emissive_type.default": "§6預設"
 }
